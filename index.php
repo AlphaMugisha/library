@@ -50,29 +50,231 @@ session_start();
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
     <style>
-        body { transition: background-color 0.4s ease, color 0.4s ease; }
-        .text-gradient { background: linear-gradient(135deg, #FF6600 0%, #f97316 50%, #fb923c 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-        
-        #canvas-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
-        
-        .glass {
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        
-        .dark .glass {
-            background: rgba(2, 6, 23, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+        /* 
+            NGA Library Portal - Premium Academic UI Overhaul
+            Design System: Modern SaaS / Academic 
+        */
+
+        :root {
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --secondary: #0f172a;
+            --accent: #0d9488;
+            --bg-light: #f8fafc;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --glass-bg: rgba(255, 255, 255, 0.75);
+            --glass-border: rgba(255, 255, 255, 0.4);
+            --card-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+            --card-shadow-hover: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
         }
 
-        .card-hover { transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
-        .card-hover:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+        .dark {
+            --primary: #3b82f6;
+            --primary-hover: #60a5fa;
+            --secondary: #020617;
+            --bg-light: #020617;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --glass-bg: rgba(15, 23, 42, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --card-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+            --card-shadow-hover: 0 25px 50px -12px rgba(59, 130, 246, 0.15);
         }
-        .dark .card-hover:hover { box-shadow: 0 25px 50px -12px rgba(255, 102, 0, 0.15); }
+
+        /* Base Styles & Typography */
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            transition: background-color 0.5s ease, color 0.5s ease;
+            scroll-behavior: smooth;
+            color: var(--text-main);
+            background-color: var(--bg-light);
+        }
+
+        /* Typography Polish */
+        h1, h2, h3 {
+            letter-spacing: -0.02em;
+            font-weight: 800;
+        }
+
+        .text-gradient {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Navbar Enhancements */
+        #navbar {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        #navbar .glass {
+            background: var(--glass-bg);
+            border-bottom: 1px solid var(--glass-border);
+            backdrop-filter: blur(12px) saturate(180%);
+        }
+
+        #navbar.shadow-md {
+            height: 70px;
+        }
+
+        #navbar.shadow-md .max-w-\[1400px\] {
+            height: 70px;
+        }
+
+        /* Glassmorphism Refined */
+        .glass {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px) saturate(180%);
+            -webkit-backdrop-filter: blur(16px) saturate(180%);
+            border: 1px solid var(--glass-border);
+        }
+
+        /* Premium Button Styling (Overrides) */
+        .bg-gradient-to-r.from-\[\#FF6600\] {
+            background: linear-gradient(to right, var(--primary), var(--primary-hover)) !important;
+            box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.3) !important;
+        }
+
+        .bg-gradient-to-r.from-\[\#FF6600\]:hover {
+            box-shadow: 0 20px 25px -5px rgba(37, 99, 235, 0.4) !important;
+            transform: translateY(-2px);
+        }
+
+        .bg-slate-900.dark\:bg-white {
+            transition: all 0.3s ease;
+        }
+
+        .bg-slate-900.dark\:bg-white:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Card Improvements */
+        .card-hover {
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--card-shadow);
+            border: 1px solid var(--glass-border) !important;
+            border-radius: 24px !important;
+        }
+
+        .card-hover:hover {
+            transform: translateY(-12px) scale(1.01);
+            box-shadow: var(--card-shadow-hover);
+            border-color: rgba(37, 99, 235, 0.3) !important;
+        }
+
+        /* Feature Icon Gradients */
+        .from-orange-500.to-\[\#FF6600\] {
+            background: linear-gradient(135deg, var(--primary), var(--primary-hover)) !important;
+            box-shadow: 0 8px 20px -5px rgba(37, 99, 235, 0.4) !important;
+        }
+
+        .from-blue-500.to-blue-600 {
+            background: linear-gradient(135deg, var(--accent), #0f766e) !important;
+            box-shadow: 0 8px 20px -5px rgba(13, 148, 136, 0.4) !important;
+        }
+
+        .from-purple-500.to-purple-600 {
+            background: linear-gradient(135deg, #6366f1, #4338ca) !important;
+            box-shadow: 0 8px 20px -5px rgba(99, 102, 241, 0.4) !important;
+        }
+
+        /* Hero Section Visuals */
+        .bg-orange-400\/10, .bg-orange-600\/5 {
+            background-color: rgba(37, 99, 235, 0.08) !important;
+        }
+
+        .bg-blue-400\/10, .bg-blue-600\/5 {
+            background-color: rgba(13, 148, 136, 0.08) !important;
+        }
+
+        /* Floating Elements in Hero */
+        .from-\[\#FF6600\].to-orange-400 {
+            background: linear-gradient(135deg, var(--primary), #60a5fa) !important;
+        }
+
+        .text-\[\#FF6600\] {
+            color: var(--primary) !important;
+        }
+
+        .bg-\[\#FF6600\] {
+            background-color: var(--primary) !important;
+        }
+
+        .border-\[\#FF6600\]\/50:hover {
+            border-color: var(--primary) !important;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-light);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+            border: 2px solid var(--bg-light);
+        }
+
+        .dark ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border: 2px solid #020617;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        /* Animations */
+        @keyframes soft-float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .animate-float {
+            animation: soft-float 6s ease-in-out infinite;
+        }
+
+        .animate-float-delayed {
+            animation: soft-float 6s ease-in-out 3s infinite;
+        }
+
+        /* Footer Polish */
+        footer.glass {
+            border-top: 1px solid var(--glass-border);
+            margin-top: 5rem;
+            padding: 3rem 0;
+        }
+
+        /* Interactive Elements Micro-interactions */
+        a, button {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Selection */
+        ::selection {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Grid Pattern Background for Hero */
+        section.relative.min-h-screen::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: radial-gradient(var(--glass-border) 1px, transparent 1px);
+            background-size: 40px 40px;
+            mask-image: linear-gradient(to bottom, black 50%, transparent);
+            -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent);
+            z-index: -1;
+            opacity: 0.5;
+        }
     </style>
 </head>
 
