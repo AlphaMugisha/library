@@ -1,6 +1,6 @@
 <?php
 session_start();
-// We will add the DB config and redirect logic later once the login is built
+// Database configuration
 // require 'config/db.php'; 
 ?>
 
@@ -9,11 +9,15 @@ session_start();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NGA Library Portal | Academic Bridge</title>
+    <title>NGA Library | Academic Excellence Hub</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -21,23 +25,35 @@ session_start();
             theme: {
                 extend: {
                     fontFamily: { sans: ['Inter', 'sans-serif'] },
-                    colors: { nga: { brand: '#FF6600', navy: '#0f172a' } },
+                    colors: { 
+                        nga: { 
+                            orange: '#FF6600', 
+                            orangeHover: '#e65c00',
+                            navy: '#0f172a',
+                            accent: '#f97316'
+                        } 
+                    },
                     animation: {
-                        'blob': 'blob 20s infinite ease-in-out alternate',
+                        'blob': 'blob 15s infinite ease-in-out alternate',
                         'float': 'float 6s ease-in-out infinite',
-                        'float-delayed': 'float 6s ease-in-out 3s infinite',
-                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float-slow': 'float 8s ease-in-out 2s infinite',
+                        'shimmer': 'shimmer 2.5s linear infinite',
+                        'spin-slow': 'spin 12s linear infinite',
                     },
                     keyframes: {
                         blob: {
                             '0%': { transform: 'translate(0px, 0px) scale(1)' },
-                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
-                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '33%': { transform: 'translate(50px, -70px) scale(1.15)' },
+                            '66%': { transform: 'translate(-40px, 40px) scale(0.9)' },
                             '100%': { transform: 'translate(0px, 0px) scale(1)' },
                         },
                         float: {
-                            '0%, 100%': { transform: 'translateY(0)' },
-                            '50%': { transform: 'translateY(-20px)' },
+                            '0%, 100%': { transform: 'translateY(0) rotate(0deg)' },
+                            '50%': { transform: 'translateY(-25px) rotate(3deg)' },
+                        },
+                        shimmer: {
+                            '0%': { backgroundPosition: '-200% 0' },
+                            '100%': { backgroundPosition: '200% 0' }
                         }
                     }
                 }
@@ -45,262 +61,185 @@ session_start();
         }
     </script>
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-
     <style>
-        /* 
-            NGA Library Portal - Premium Orange SaaS UI
-            Design System: Modern Academic / Vibrant Professional
-        */
-
         :root {
-            --primary: #FF6600;
-            --primary-hover: #e65c00;
-            --secondary: #0f172a;
-            --accent: #f97316;
-            --bg-light: #f8fafc;
-            --text-main: #1e293b;
-            --text-muted: #64748b;
-            --glass-bg: rgba(255, 255, 255, 0.8);
-            --glass-border: rgba(255, 255, 255, 0.5);
-            --card-shadow: 0 10px 25px -5px rgba(255, 102, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
-            --card-shadow-hover: 0 25px 30px -5px rgba(255, 102, 0, 0.12), 0 12px 15px -6px rgba(255, 102, 0, 0.08);
+            --glass-light: rgba(255, 255, 255, 0.85);
+            --glass-dark: rgba(15, 23, 42, 0.8);
+            --nga-orange: #FF6600;
         }
 
-        .dark {
-            --primary: #FF6600;
-            --primary-hover: #ff751a;
-            --secondary: #020617;
-            --bg-light: #020617;
-            --text-main: #f1f5f9;
-            --text-muted: #94a3b8;
-            --glass-bg: rgba(15, 23, 42, 0.75);
-            --glass-border: rgba(255, 255, 255, 0.08);
-            --card-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
-            --card-shadow-hover: 0 25px 50px -12px rgba(255, 102, 0, 0.15);
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding-top: 80px;
+            position: relative;
         }
 
-        /* Base Styles */
-        body {
-            font-family: 'Inter', sans-serif;
-            color: var(--text-main);
-            background-color: var(--bg-light);
-            line-height: 1.6;
+        .glass {
+            background: var(--glass-light);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid rgba(255, 102, 0, 0.1);
         }
-
-        /* Layout Fix: Hero Spacing (CRITICAL) */
-        section.min-h-screen {
-            display: flex !important;
-            flex-direction: column !important;
-            justify-content: center !important;
-            padding-top: 0 !important; /* Remove the hardcoded pt-32 */
-            margin-top: 0 !important;
-        }
-
-        /* Account for fixed navbar height in hero centering */
-        section.min-h-screen > div {
-            padding-top: 80px; /* Exact navbar height */
-        }
-
-        /* Typography */
-        h1, h2, h3 {
-            font-weight: 900;
-            letter-spacing: -0.03em;
-            line-height: 1.1;
+        .dark .glass {
+            background: var(--glass-dark);
+            border-color: rgba(255, 255, 255, 0.05);
         }
 
         .text-gradient {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 50%, #fb923c 100%);
+            background: linear-gradient(135deg, #FF6600 0%, #fb923c 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            background-clip: text;
         }
 
-        /* Navbar Refinement */
-        #navbar .glass {
-            backdrop-filter: blur(16px) saturate(180%);
-            border-bottom: 1px solid var(--glass-border);
-        }
-
-        /* Orange Brand Components */
-        .text-blue-600, .group-hover\:text-blue-600 {
-            color: var(--primary) !important;
-        }
-
-        .bg-blue-600, .bg-\[\#FF6600\] {
-            background-color: var(--primary) !important;
-        }
-
-        .bg-gradient-to-r.from-blue-600 {
-            background: linear-gradient(to right, var(--primary), var(--primary-hover)) !important;
-            box-shadow: 0 10px 15px -3px rgba(255, 102, 0, 0.3) !important;
-        }
-
-        .bg-gradient-to-r.from-blue-600:hover {
-            box-shadow: 0 20px 25px -5px rgba(255, 102, 0, 0.4) !important;
-        }
-
-        /* Card System */
-        .card-hover {
-            background: var(--glass-bg) !important;
-            border: 1px solid var(--glass-border) !important;
-            border-radius: 32px !important;
-            box-shadow: var(--card-shadow) !important;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        .card-hover:hover {
-            transform: translateY(-12px) scale(1.02);
-            box-shadow: var(--card-shadow-hover) !important;
-            border-color: var(--primary) !important;
-        }
-
-        /* Feature Icon Overrides */
-        .from-orange-500.to-\[\#FF6600\], .from-blue-500.to-blue-600 {
-            background: linear-gradient(135deg, var(--primary), var(--accent)) !important;
-            box-shadow: 0 8px 16px -4px rgba(255, 102, 0, 0.3) !important;
-        }
-
-        /* Glass Refinement */
-        .glass {
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px) saturate(180%);
-            border: 1px solid var(--glass-border);
-        }
-
-        /* Floating Blobs */
-        .bg-blue-400\/10, .bg-indigo-400\/10 {
-            background-color: rgba(255, 102, 0, 0.08) !important;
-        }
-
-        /* Micro-animations */
-        .hover-lift {
-            transition: transform 0.3s ease;
-        }
-        .hover-lift:hover {
-            transform: translateY(-3px);
-        }
-
-        /* Scrollbar */
-        ::-webkit-scrollbar-thumb {
-            background: var(--primary);
-            border-radius: 10px;
-        }
-
-        /* Hero Section Grid Fix */
-        section.relative.min-h-screen::before {
-            content: '';
+        .bg-grid {
             position: absolute;
             inset: 0;
-            background-image: radial-gradient(rgba(255, 102, 0, 0.1) 1px, transparent 1px);
+            background-image: radial-gradient(rgba(255, 102, 0, 0.1) 1.5px, transparent 1.5px);
             background-size: 40px 40px;
             z-index: 0;
-            pointer-events: none;
-            mask-image: linear-gradient(to bottom, black, transparent);
+            mask-image: radial-gradient(circle at center, black, transparent 90%);
         }
 
-        /* CTA Buttons */
-        .border-blue-600\/50:hover, .hover\:border-blue-600\/50:hover {
-            border-color: var(--primary) !important;
-            background: rgba(255, 102, 0, 0.05) !important;
+        .btn-shimmer {
+            background: linear-gradient(90deg, #FF6600, #ff8c40, #FF6600);
+            background-size: 200% auto;
+            transition: 0.5s;
+        }
+        .btn-shimmer:hover {
+            background-position: right center;
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 20px 40px -10px rgba(255, 102, 0, 0.4);
+        }
+
+        .card-perspective {
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border-radius: 40px;
+        }
+        .card-perspective:hover {
+            transform: translateY(-15px) rotateX(5deg);
+            border-color: var(--nga-orange);
+            box-shadow: 0 40px 80px -20px rgba(255, 102, 0, 0.15);
+        }
+
+        #canvas-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .stat-card {
+            background: linear-gradient(to bottom right, rgba(255, 102, 0, 0.05), transparent);
         }
     </style>
 </head>
 
-<body class="antialiased bg-slate-50 text-slate-800 dark:bg-[#020617] dark:text-slate-200 selection:bg-nga-brand selection:text-white overflow-x-hidden">
+<body class="antialiased bg-slate-50 text-slate-800 dark:bg-[#020617] dark:text-slate-200 overflow-x-hidden">
     
-    <canvas id="canvas-container"></canvas>
-    
-    <div class="fixed inset-0 w-full h-full pointer-events-none overflow-hidden -z-10" style="will-change: transform;">
-        <div class="absolute top-0 left-1/4 w-[300px] h-[300px] bg-blue-400/10 dark:bg-blue-600/5 rounded-full filter blur-[80px] animate-blob"></div>
-        <div class="absolute top-0 right-1/4 w-[300px] h-[300px] bg-indigo-400/10 dark:bg-indigo-600/5 rounded-full filter blur-[80px] animate-blob" style="animation-delay: -7s;"></div>
-    </div>
+    <canvas id="canvas-bg"></canvas>
 
-    <nav class="fixed w-full top-0 z-50 transition-all duration-300" id="navbar">
-        <div class="glass border-b border-slate-200/50 dark:border-slate-800/30">
-            <div class="max-w-[1400px] mx-auto px-6 h-20 flex items-center justify-between">
+    <nav class="fixed w-full top-0 z-50 transition-all duration-500" id="navbar">
+        <div class="glass border-b border-slate-200/50 dark:border-slate-800/50">
+            <div class="max-w-[1400px] mx-auto px-8 h-20 flex items-center justify-between">
                 <a href="index.php" class="flex items-center gap-3 group">
-                    <div class="w-10 h-10 bg-white rounded-xl flex items-center justify-center p-1.5 shadow-md border border-slate-100 dark:border-slate-700">
-                        <i class='bx bx-book-reader text-2xl text-blue-600'></i>
+                    <div class="w-12 h-12 bg-white rounded-2xl flex items-center justify-center shadow-lg border border-slate-100 dark:border-slate-700 group-hover:rotate-[15deg] transition-transform">
+                        <i class='bx bx-book-reader text-3xl text-nga-orange'></i>
                     </div>
-                    <span class="text-xl font-black tracking-tight text-slate-900 dark:text-white group-hover:text-blue-600 transition-colors">NGA <span class="text-slate-400 dark:text-slate-500 font-medium">Library</span></span>
+                    <span class="text-2xl font-black tracking-tighter text-slate-900 dark:text-white">
+                        NGA <span class="text-slate-400 font-medium">Library</span>
+                    </span>
                 </a>
                 
-                <div class="hidden md:flex items-center gap-8">
-                    <a href="#" class="font-bold text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-white transition-colors">Home</a>
-                    <a href="#catalog" class="font-bold text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-white transition-colors">Public Catalog</a>
+                <div class="hidden lg:flex items-center gap-12">
+                    <a href="#" class="font-bold text-sm uppercase tracking-widest text-slate-600 dark:text-slate-300 hover:text-nga-orange transition-colors">Home</a>
+                    <a href="#stats" class="font-bold text-sm uppercase tracking-widest text-slate-600 dark:text-slate-300 hover:text-nga-orange transition-colors">Impact</a>
+                    <a href="#categories" class="font-bold text-sm uppercase tracking-widest text-slate-600 dark:text-slate-300 hover:text-nga-orange transition-colors">Library</a>
                     
-                    <button id="theme-toggle" class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-500 dark:text-amber-400 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all flex items-center justify-center">
-                        <i class='bx bxs-sun text-lg hidden dark:block'></i>
-                        <i class='bx bxs-moon text-lg block dark:hidden'></i>
+                    <button id="theme-toggle" class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center hover:scale-110 transition-all">
+                        <i class='bx bxs-sun text-xl hidden dark:block text-amber-400'></i>
+                        <i class='bx bxs-moon text-xl block dark:hidden text-slate-600'></i>
                     </button>
 
-                    <a href="login.php" class="group relative flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-bold text-sm rounded-xl transition-all shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 transform hover:-translate-y-0.5 overflow-hidden">
-                        <i class='bx bx-log-in-circle text-lg'></i> Student Login
+                    <a href="login.php" class="btn-shimmer px-8 py-3.5 text-white font-black text-xs rounded-2xl uppercase tracking-widest shadow-xl">
+                        Student Access
                     </a>
                 </div>
             </div>
         </div>
     </nav>
 
-    <section class="relative min-h-screen pt-32 pb-20 px-6 overflow-hidden flex items-center z-10">
-        <div class="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-20">
-            
-            <div data-aos="fade-right" data-aos-duration="1200" class="text-center lg:text-left">
-                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass mb-8 shadow-sm border border-slate-200/50 dark:border-slate-700/50">
-                    <span class="w-2 h-2 rounded-full bg-blue-600 animate-pulse-slow"></span>
-                    <span class="text-xs font-bold text-slate-600 dark:text-slate-300 uppercase tracking-widest">Digital Resource Center</span>
-                </div>
-                
-                <h1 class="text-5xl md:text-6xl lg:text-7xl font-black tracking-tighter mb-6 leading-[1.05] text-slate-900 dark:text-white">
-                    Unlock Your <br>
-                    <span class="text-gradient">Next Great Read</span>
-                </h1>
-                
-                <p class="text-lg md:text-xl text-slate-600 dark:text-slate-400 mb-10 font-medium leading-relaxed max-w-xl mx-auto lg:mx-0">
-                    Welcome to the New Generation Academy Library Portal. Browse thousands of digital and physical books, track your reading history, and manage your borrowed resources all in one place.
-                </p>
-                
-                <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
-                    <a href="#catalog" class="w-full sm:w-auto px-8 py-4 bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-black rounded-2xl transition-all shadow-xl hover:-translate-y-1 flex items-center justify-center gap-2">
-                        <i class='bx bx-search-alt-2 text-xl'></i> Browse Catalog
-                    </a>
-                    <a href="login.php" class="w-full sm:w-auto px-8 py-4 glass border border-slate-200/50 dark:border-slate-700/50 text-slate-800 dark:text-white font-bold rounded-2xl transition-all hover:border-blue-600/50 hover:bg-white/50 flex items-center justify-center gap-2">
-                        <i class='bx bx-user-circle text-xl'></i> Access My Account
-                    </a>
-                </div>
-            </div>
+    <section class="hero-section overflow-hidden">
+        <div class="bg-grid"></div>
+        <div class="absolute top-0 left-0 w-full h-full pointer-events-none -z-10">
+            <div class="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-orange-500/10 rounded-full blur-[120px] animate-blob"></div>
+            <div class="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-blue-500/10 rounded-full blur-[120px] animate-blob" style="animation-delay: -5s;"></div>
+        </div>
 
-            <div class="relative h-[500px] flex items-center justify-center" data-aos="fade-left" data-aos-duration="1200">
-                <div class="absolute inset-0 flex items-center justify-center">
-                    <div class="w-[400px] h-[400px] rounded-full bg-gradient-to-br from-blue-600/20 to-teal-500/20 blur-3xl animate-pulse-slow"></div>
-                </div>
+        <div class="max-w-[1400px] mx-auto px-8 w-full relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-20 items-center">
                 
-                <div class="relative w-full max-w-md">
-                    <div class="absolute -top-6 -left-6 w-32 h-32 bg-gradient-to-br from-blue-600 to-indigo-500 rounded-3xl shadow-2xl rotate-[-12deg] opacity-90 animate-float z-0"></div>
-                    <div class="absolute -bottom-8 -right-8 w-40 h-40 bg-gradient-to-br from-teal-500 to-emerald-600 rounded-3xl shadow-2xl rotate-[8deg] opacity-90 animate-float-delayed z-0"></div>
+                <div class="lg:col-span-7 text-center lg:text-left" data-aos="fade-right">
+                    <div class="inline-flex items-center gap-3 px-6 py-2.5 rounded-full glass mb-10 shadow-sm border border-orange-500/20">
+                        <span class="flex h-3 w-3 relative">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-3 w-3 bg-nga-orange"></span>
+                        </span>
+                        <span class="text-xs font-black text-slate-600 dark:text-slate-300 uppercase tracking-[0.3em]">Next-Gen Resource Hub</span>
+                    </div>
                     
-                    <div class="relative glass rounded-3xl shadow-2xl border border-slate-100 dark:border-slate-800 overflow-hidden z-10 p-6">
-                        <div class="flex items-center gap-4 mb-6">
-                            <div class="w-16 h-20 bg-slate-200 dark:bg-slate-700 rounded-lg shadow-inner flex items-center justify-center">
-                                <i class='bx bxs-book text-3xl text-slate-400'></i>
+                    <h1 class="text-6xl md:text-8xl lg:text-[100px] font-black tracking-tighter mb-10 leading-[0.85] text-slate-900 dark:text-white">
+                        Access Your <br>
+                        <span class="text-gradient">Digital Legacy</span>
+                    </h1>
+                    
+                    <p class="text-xl md:text-2xl text-slate-500 dark:text-slate-400 mb-14 font-medium leading-relaxed max-w-2xl mx-auto lg:mx-0">
+                        Step into a smarter library experience. Reserve books, track history, and explore digital e-resources tailored for NGA excellence.
+                    </p>
+                    
+                    <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-6">
+                        <a href="#categories" class="w-full sm:w-auto px-12 py-6 bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-black rounded-3xl shadow-2xl hover:scale-105 transition-all flex items-center justify-center gap-3">
+                            <i class='bx bx-compass text-2xl'></i> Explore Catalog
+                        </a>
+                        <a href="login.php" class="w-full sm:w-auto px-12 py-6 glass border-2 border-slate-200 dark:border-slate-700 text-slate-800 dark:text-white font-black rounded-3xl hover:border-nga-orange hover:text-nga-orange transition-all flex items-center justify-center gap-3">
+                            <i class='bx bx-lock-alt text-2xl'></i> Student Login
+                        </a>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-5 relative hidden lg:flex items-center justify-center" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="relative w-full max-w-md">
+                        <div class="absolute -top-16 -right-16 w-32 h-32 bg-nga-orange/20 rounded-full blur-3xl animate-pulse"></div>
+                        
+                        <div class="glass rounded-[60px] shadow-[0_50px_100px_-20px_rgba(255,102,0,0.2)] p-12 transform hover:rotate-3 transition-transform duration-700 border-white/40">
+                            <div class="flex items-center gap-8 mb-12">
+                                <div class="w-28 h-36 bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-800 dark:to-slate-700 rounded-[30px] flex items-center justify-center shadow-inner relative overflow-hidden group">
+                                    <i class='bx bxs-book-content text-6xl text-nga-orange group-hover:scale-110 transition-transform'></i>
+                                </div>
+                                <div>
+                                    <span class="bg-orange-100 dark:bg-orange-900/40 text-nga-orange text-[10px] font-black px-4 py-1.5 rounded-full uppercase tracking-[0.2em]">Live Tracking</span>
+                                    <h3 class="font-black text-slate-900 dark:text-white text-3xl mt-4 leading-tight">Modern Web Architectures</h3>
+                                    <p class="text-sm font-bold text-slate-400 mt-2">Engineering Dept.</p>
+                                </div>
                             </div>
-                            <div>
-                                <h3 class="font-black text-slate-900 dark:text-white text-lg">Advanced Web Development</h3>
-                                <p class="text-sm font-bold text-blue-600">Available Now</p>
-                                <p class="text-xs text-slate-500 mt-1">Tech / Programming</p>
+                            
+                            <div class="space-y-6 mb-12">
+                                <div class="flex justify-between items-end mb-2">
+                                    <span class="text-[11px] font-black uppercase text-slate-500">Popularity</span>
+                                    <span class="text-nga-orange font-black">94%</span>
+                                </div>
+                                <div class="h-3.5 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+                                    <div class="h-full bg-nga-orange w-[94%] rounded-full shadow-[0_0_15px_rgba(255,102,0,0.5)]"></div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="space-y-3">
-                            <div class="h-2 w-full bg-slate-200 dark:bg-slate-700 rounded"></div>
-                            <div class="h-2 w-5/6 bg-slate-200 dark:bg-slate-700 rounded"></div>
-                            <div class="h-2 w-4/6 bg-slate-200 dark:bg-slate-700 rounded"></div>
-                        </div>
-                        <div class="mt-6 pt-6 border-t border-slate-200 dark:border-slate-700 flex justify-between items-center">
-                            <span class="text-xs font-bold text-slate-500">ISBN: 978-3-16-1484</span>
-                            <button class="px-4 py-2 bg-blue-600 text-white text-xs font-bold rounded-lg shadow-lg">Reserve Book</button>
+
+                            <button class="w-full py-6 bg-nga-orange text-white font-black rounded-3xl shadow-xl shadow-orange-500/30 hover:brightness-110 transition-all flex items-center justify-center gap-3">
+                                <i class='bx bx-bookmark-heart text-2xl'></i> Quick Reserve
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -308,179 +247,227 @@ session_start();
         </div>
     </section>
 
-    <section id="features" class="py-20 px-6 relative z-10">
-        <div class="max-w-[1400px] mx-auto">
-            <div class="text-center mb-16" data-aos="fade-up">
-                <h2 class="text-3xl md:text-5xl font-black mb-4 text-slate-900 dark:text-white tracking-tight">Smart Library Features</h2>
-                <p class="text-slate-600 dark:text-slate-400 font-medium max-w-2xl mx-auto">Everything you need to manage your academic reading journey seamlessly.</p>
+    <section id="stats" class="py-24 relative z-10">
+        <div class="max-w-[1400px] mx-auto px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                <div class="stat-card p-10 rounded-[40px] text-center glass border-none" data-aos="fade-up" data-aos-delay="100">
+                    <h4 class="text-5xl font-black text-nga-orange mb-2">15K+</h4>
+                    <p class="text-xs font-black uppercase tracking-widest text-slate-500">Total Volumes</p>
+                </div>
+                <div class="stat-card p-10 rounded-[40px] text-center glass border-none" data-aos="fade-up" data-aos-delay="200">
+                    <h4 class="text-5xl font-black text-nga-orange mb-2">2.5K</h4>
+                    <p class="text-xs font-black uppercase tracking-widest text-slate-500">Active Students</p>
+                </div>
+                <div class="stat-card p-10 rounded-[40px] text-center glass border-none" data-aos="fade-up" data-aos-delay="300">
+                    <h4 class="text-5xl font-black text-nga-orange mb-2">500+</h4>
+                    <p class="text-xs font-black uppercase tracking-widest text-slate-500">E-Resources</p>
+                </div>
+                <div class="stat-card p-10 rounded-[40px] text-center glass border-none" data-aos="fade-up" data-aos-delay="400">
+                    <h4 class="text-5xl font-black text-nga-orange mb-2">24/7</h4>
+                    <p class="text-xs font-black uppercase tracking-widest text-slate-500">Portal Access</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="categories" class="py-32 relative z-10 bg-slate-100/50 dark:bg-slate-900/20">
+        <div class="max-w-[1400px] mx-auto px-8">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-20 gap-8" data-aos="fade-up">
+                <div class="max-w-2xl">
+                    <h2 class="text-5xl md:text-6xl font-black text-slate-900 dark:text-white tracking-tighter mb-6 leading-tight">Explore Our <br> <span class="text-nga-orange">Diverse Catalog</span></h2>
+                    <p class="text-slate-500 font-medium text-lg leading-relaxed">Curated academic collections specifically chosen to empower your learning journey at New Generation Academy.</p>
+                </div>
+                <a href="login.php" class="px-10 py-5 bg-nga-orange text-white font-black rounded-2xl shadow-lg hover:translate-x-2 transition-transform flex items-center gap-3">
+                    View Full Catalog <i class='bx bx-right-arrow-alt text-2xl'></i>
+                </a>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="group card-perspective glass p-10 relative overflow-hidden" data-aos="fade-up" data-aos-delay="100">
+                    <div class="w-16 h-16 bg-orange-500/10 rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 transition-transform">
+                        <i class='bx bx-code-alt text-4xl text-nga-orange'></i>
+                    </div>
+                    <h3 class="text-2xl font-black mb-4">Engineering</h3>
+                    <p class="text-slate-500 text-sm mb-8 leading-relaxed">From basic coding to advanced robotics and structural design.</p>
+                    <span class="text-[10px] font-black uppercase tracking-widest text-nga-orange">1,240 Titles</span>
+                </div>
+                <div class="group card-perspective glass p-10 relative overflow-hidden" data-aos="fade-up" data-aos-delay="200">
+                    <div class="w-16 h-16 bg-blue-500/10 rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 transition-transform">
+                        <i class='bx bx-line-chart text-4xl text-blue-500'></i>
+                    </div>
+                    <h3 class="text-2xl font-black mb-4">Business</h3>
+                    <p class="text-slate-500 text-sm mb-8 leading-relaxed">Entrepreneurship, marketing, and global financial systems.</p>
+                    <span class="text-[10px] font-black uppercase tracking-widest text-blue-500">890 Titles</span>
+                </div>
+                <div class="group card-perspective glass p-10 relative overflow-hidden" data-aos="fade-up" data-aos-delay="300">
+                    <div class="w-16 h-16 bg-purple-500/10 rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 transition-transform">
+                        <i class='bx bx-palette text-4xl text-purple-500'></i>
+                    </div>
+                    <h3 class="text-2xl font-black mb-4">Liberal Arts</h3>
+                    <p class="text-slate-500 text-sm mb-8 leading-relaxed">Philosophy, social sciences, and creative communications.</p>
+                    <span class="text-[10px] font-black uppercase tracking-widest text-purple-500">2,100 Titles</span>
+                </div>
+                <div class="group card-perspective glass p-10 relative overflow-hidden" data-aos="fade-up" data-aos-delay="400">
+                    <div class="w-16 h-16 bg-emerald-500/10 rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 transition-transform">
+                        <i class='bx bx-dna text-4xl text-emerald-500'></i>
+                    </div>
+                    <h3 class="text-2xl font-black mb-4">Sciences</h3>
+                    <p class="text-slate-500 text-sm mb-8 leading-relaxed">Biological research, chemistry, and environmental physics.</p>
+                    <span class="text-[10px] font-black uppercase tracking-widest text-emerald-500">1,560 Titles</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="how-it-works" class="py-32 relative z-10">
+        <div class="max-w-[1400px] mx-auto px-8">
+            <div class="text-center mb-24" data-aos="fade-up">
+                <span class="text-nga-orange font-black uppercase tracking-widest text-xs">Seamless Process</span>
+                <h2 class="text-5xl font-black mt-4">Simple. Fast. Digital.</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-16 relative">
+                <div class="hidden md:block absolute top-1/2 left-0 w-full h-1 bg-slate-200 dark:bg-slate-800 -translate-y-1/2 z-0"></div>
                 
-                <div class="card-hover group relative glass p-8 rounded-[32px] border border-slate-200 dark:border-slate-800" data-aos="fade-up" data-aos-delay="100">
-                    <div class="w-14 h-14 bg-gradient-to-br from-orange-500 to-[#FF6600] rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-orange-500/25">
-                        <i class='bx bx-search-alt text-white text-2xl'></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3">Live Digital Catalog</h3>
-                    <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">Search the entire NGA library database in real-time. Check availability, locate shelves, and reserve copies instantly.</p>
+                <div class="relative z-10 text-center flex flex-col items-center" data-aos="fade-up" data-aos-delay="100">
+                    <div class="w-20 h-20 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-full flex items-center justify-center text-2xl font-black mb-8 border-8 border-slate-50 dark:border-[#020617] group hover:bg-nga-orange transition-colors">01</div>
+                    <h3 class="text-xl font-black mb-4">Login to Portal</h3>
+                    <p class="text-slate-500 text-sm font-medium">Use your NGA student credentials to gain full access.</p>
                 </div>
-
-                <div class="card-hover group relative glass p-8 rounded-[32px] border border-slate-200 dark:border-slate-800" data-aos="fade-up" data-aos-delay="200">
-                    <div class="w-14 h-14 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-blue-500/25">
-                        <i class='bx bx-history text-white text-2xl'></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3">Automated Tracking</h3>
-                    <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">Keep track of your borrowed books, upcoming due dates, and past reading history directly from your student dashboard.</p>
+                <div class="relative z-10 text-center flex flex-col items-center" data-aos="fade-up" data-aos-delay="200">
+                    <div class="w-20 h-20 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-full flex items-center justify-center text-2xl font-black mb-8 border-8 border-slate-50 dark:border-[#020617] group hover:bg-nga-orange transition-colors">02</div>
+                    <h3 class="text-xl font-black mb-4">Select Resources</h3>
+                    <p class="text-slate-500 text-sm font-medium">Browse physical books or download digital PDFs instantly.</p>
                 </div>
-
-                <div class="card-hover group relative glass p-8 rounded-[32px] border border-slate-200 dark:border-slate-800" data-aos="fade-up" data-aos-delay="300">
-                    <div class="w-14 h-14 bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-purple-500/25">
-                        <i class='bx bx-laptop text-white text-2xl'></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3">E-Resource Hub</h3>
-                    <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">Access PDFs, research papers, and digital study materials provided by the NGA academic staff.</p>
+                <div class="relative z-10 text-center flex flex-col items-center" data-aos="fade-up" data-aos-delay="300">
+                    <div class="w-20 h-20 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-full flex items-center justify-center text-2xl font-black mb-8 border-8 border-slate-50 dark:border-[#020617] group hover:bg-nga-orange transition-colors">03</div>
+                    <h3 class="text-xl font-black mb-4">Study & Excel</h3>
+                    <p class="text-slate-500 text-sm font-medium">Track your due dates and manage returns through your dashboard.</p>
                 </div>
-
             </div>
         </div>
     </section>
 
-    <footer class="border-t border-slate-200 dark:border-slate-800/80 py-10 mt-10 relative z-10 glass">
-        <div class="max-w-[1400px] mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
-            <div class="flex items-center gap-3 opacity-60 hover:opacity-100 transition-opacity">
-                <i class='bx bxs-graduation text-2xl text-slate-800 dark:text-white'></i>
-                <span class="text-xs font-bold tracking-widest uppercase text-slate-800 dark:text-white">
-                    New Generation Academy
-                </span>
+    <footer class="py-20 relative z-10 glass border-t-0 bg-white/30 dark:bg-slate-950/30">
+        <div class="max-w-[1400px] mx-auto px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 mb-20">
+                <div class="lg:col-span-2">
+                    <a href="#" class="flex items-center gap-3 mb-8">
+                        <div class="w-10 h-10 bg-nga-orange rounded-xl flex items-center justify-center text-white">
+                            <i class='bx bx-book-reader text-2xl'></i>
+                        </div>
+                        <span class="text-2xl font-black text-slate-900 dark:text-white">NGA Library</span>
+                    </a>
+                    <p class="text-slate-500 font-medium max-w-sm mb-10 leading-relaxed">Empowering the next generation of leaders through seamless access to world-class academic knowledge.</p>
+                    <div class="flex gap-4">
+                        <a href="#" class="w-12 h-12 rounded-full glass flex items-center justify-center text-2xl hover:bg-nga-orange hover:text-white transition-all"><i class='bx bxl-facebook'></i></a>
+                        <a href="#" class="w-12 h-12 rounded-full glass flex items-center justify-center text-2xl hover:bg-nga-orange hover:text-white transition-all"><i class='bx bxl-twitter'></i></a>
+                        <a href="#" class="w-12 h-12 rounded-full glass flex items-center justify-center text-2xl hover:bg-nga-orange hover:text-white transition-all"><i class='bx bxl-linkedin'></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h5 class="font-black text-sm uppercase tracking-widest mb-8">Portal Links</h5>
+                    <ul class="space-y-4 font-bold text-slate-500 dark:text-slate-400">
+                        <li><a href="#" class="hover:text-nga-orange transition-colors">Digital Catalog</a></li>
+                        <li><a href="#" class="hover:text-nga-orange transition-colors">E-Resource Hub</a></li>
+                        <li><a href="#" class="hover:text-nga-orange transition-colors">Student Login</a></li>
+                        <li><a href="#" class="hover:text-nga-orange transition-colors">Research Guides</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 class="font-black text-sm uppercase tracking-widest mb-8">Support</h5>
+                    <ul class="space-y-4 font-bold text-slate-500 dark:text-slate-400">
+                        <li><a href="#" class="hover:text-nga-orange transition-colors">Help Center</a></li>
+                        <li><a href="#" class="hover:text-nga-orange transition-colors">Library Policy</a></li>
+                        <li><a href="#" class="hover:text-nga-orange transition-colors">Contact Librarian</a></li>
+                    </ul>
+                </div>
             </div>
-            <p class="text-xs text-slate-500 font-bold">
-                &copy; <?php echo date("Y"); ?> NGA Library System. All rights reserved.
-            </p>
+            
+            <div class="pt-10 border-t border-slate-200 dark:border-slate-800 flex flex-col md:flex-row justify-between items-center gap-6">
+                <p class="text-[10px] font-black uppercase tracking-widest text-slate-400">© <?php echo date('Y'); ?> New Generation Academy. Built for Excellence.</p>
+                <div class="flex gap-8 text-[10px] font-black uppercase tracking-widest text-slate-400">
+                    <a href="#" class="hover:text-nga-orange">Privacy Policy</a>
+                    <a href="#" class="hover:text-nga-orange">Terms of Service</a>
+                </div>
+            </div>
         </div>
     </footer>
 
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js" defer></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Initialize animations
-            setTimeout(() => {
-                if (typeof AOS !== 'undefined') {
-                    AOS.init({ duration: 800, offset: 50, once: true, easing: 'ease-out-cubic' });
+            
+            // AOS Init
+            AOS.init({ duration: 1000, once: true, easing: 'ease-out-expo' });
+
+            // Theme Toggle
+            const html = document.documentElement;
+            const toggle = document.getElementById('theme-toggle');
+            if(localStorage.getItem('theme') === 'dark') html.classList.add('dark');
+
+            toggle.addEventListener('click', () => {
+                html.classList.toggle('dark');
+                localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+            });
+
+            // Navbar Scroll Effect
+            const navbar = document.getElementById('navbar');
+            window.addEventListener('scroll', () => {
+                if(window.scrollY > 50) {
+                    navbar.querySelector('.glass').style.margin = '10px 20px';
+                    navbar.querySelector('.glass').style.borderRadius = '30px';
+                    navbar.querySelector('.glass').style.boxShadow = '0 20px 40px rgba(0,0,0,0.1)';
+                } else {
+                    navbar.querySelector('.glass').style.margin = '0';
+                    navbar.querySelector('.glass').style.borderRadius = '0';
+                    navbar.querySelector('.glass').style.boxShadow = 'none';
                 }
-            }, 100);
+            });
 
-            // Theme Toggle Logic (Forced Light Mode Default)
-            const htmlElement = document.documentElement;
-            const themeToggleBtn = document.getElementById('theme-toggle');
-
-            if (localStorage.getItem('theme') === 'dark') {
-                htmlElement.classList.add('dark');
-            } else {
-                htmlElement.classList.remove('dark');
-                localStorage.setItem('theme', 'light'); 
-            }
-
-            if (themeToggleBtn) {
-                themeToggleBtn.addEventListener('click', () => {
-                    htmlElement.classList.toggle('dark');
-                    if (htmlElement.classList.contains('dark')) {
-                        localStorage.setItem('theme', 'dark');
-                    } else {
-                        localStorage.setItem('theme', 'light');
-                    }
-                });
-            }
-
-            // Navbar shadow on scroll
-            const nav = document.getElementById('navbar');
-            if (nav) {
-                window.addEventListener('scroll', function() {
-                    if (window.scrollY > 20) {
-                        nav.classList.add('shadow-md');
-                        nav.classList.remove('shadow-sm');
-                    } else {
-                        nav.classList.remove('shadow-md');
-                        nav.classList.add('shadow-sm');
-                    }
-                });
-            }
-
-            // Canvas Particles Logic (Exactly from your original code)
-            const canvas = document.getElementById('canvas-container');
+            // Canvas Background Particles
+            const canvas = document.getElementById('canvas-bg');
             const ctx = canvas.getContext('2d');
             let particles = [];
-            
-            function resizeCanvas() {
+
+            function resize() {
                 canvas.width = window.innerWidth;
                 canvas.height = window.innerHeight;
             }
-            resizeCanvas();
-            window.addEventListener('resize', resizeCanvas);
+            window.addEventListener('resize', resize);
+            resize();
 
             class Particle {
-                constructor() { this.reset(); }
-                reset() {
+                constructor() { this.init(); }
+                init() {
                     this.x = Math.random() * canvas.width;
-                    this.y = canvas.height + Math.random() * 100;
-                    this.size = Math.random() * 20 + 15;
-                    this.speedY = Math.random() * 0.3 + 0.15;
+                    this.y = Math.random() * canvas.height;
+                    this.size = Math.random() * 15 + 5;
                     this.speedX = Math.random() * 0.5 - 0.25;
-                    this.opacity = Math.random() * 0.25 + 0.08;
-                    this.color = this.getRandomColor();
-                    this.shape = Math.floor(Math.random() * 4);
-                    this.rotation = Math.random() * Math.PI * 2;
-                    this.rotationSpeed = Math.random() * 0.01 - 0.005;
-                }
-                getRandomColor() {
-                    const isDark = document.documentElement.classList.contains('dark');
-                    const colors = [
-                        'rgba(255, 102, 0, OPACITY)', 'rgba(59, 130, 246, OPACITY)',
-                        'rgba(168, 85, 247, OPACITY)', 'rgba(34, 197, 94, OPACITY)', 'rgba(251, 146, 60, OPACITY)'
-                    ];
-                    return colors[Math.floor(Math.random() * colors.length)].replace('OPACITY', this.opacity);
+                    this.speedY = Math.random() * 0.5 - 0.25;
+                    this.opacity = Math.random() * 0.1;
                 }
                 update() {
-                    this.y -= this.speedY;
                     this.x += this.speedX;
-                    this.rotation += this.rotationSpeed;
-                    if (this.y < -this.size * 2) {
-                        this.reset();
-                        this.y = canvas.height + this.size * 2;
-                    }
+                    this.y += this.speedY;
+                    if(this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+                    if(this.y < 0 || this.y > canvas.height) this.speedY *= -1;
                 }
                 draw() {
-                    ctx.save();
-                    ctx.translate(this.x, this.y);
-                    ctx.rotate(this.rotation);
-                    ctx.fillStyle = this.color;
-                    if (this.shape === 0) { ctx.beginPath(); ctx.arc(0, 0, this.size, 0, Math.PI * 2); ctx.fill(); } 
-                    else if (this.shape === 1) { ctx.fillRect(-this.size/2, -this.size/2, this.size, this.size); } 
-                    else if (this.shape === 2) {
-                        ctx.beginPath(); ctx.moveTo(0, -this.size); ctx.lineTo(this.size * 0.866, this.size * 0.5); ctx.lineTo(-this.size * 0.866, this.size * 0.5); ctx.closePath(); ctx.fill();
-                    } else {
-                        ctx.beginPath(); ctx.moveTo(0, -this.size); ctx.lineTo(this.size, 0); ctx.lineTo(0, this.size); ctx.lineTo(-this.size, 0); ctx.closePath(); ctx.fill();
-                    }
-                    ctx.restore();
+                    ctx.fillStyle = `rgba(255, 102, 0, ${this.opacity})`;
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fill();
                 }
             }
 
-            function initParticles() {
-                particles = [];
-                const particleCount = Math.min(12, Math.floor(canvas.width / 80));
-                for (let i = 0; i < particleCount; i++) {
-                    const p = new Particle();
-                    p.y = Math.random() * canvas.height;
-                    particles.push(p);
-                }
-            }
+            for(let i=0; i<20; i++) particles.push(new Particle());
 
             function animate() {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.clearRect(0,0,canvas.width, canvas.height);
                 particles.forEach(p => { p.update(); p.draw(); });
                 requestAnimationFrame(animate);
             }
-
-            initParticles();
             animate();
         });
     </script>
