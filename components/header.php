@@ -98,6 +98,9 @@ $header_title = isset($header_title) ? $header_title : "Dashboard";
                 <a href="transactions.php" class="<?php echo ($current_page == 'transactions.php') ? 'bg-gradient-to-r from-[#FF6600]/10 to-transparent text-[#FF6600] border-l-2 border-[#FF6600]' : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/50 hover:text-slate-900 dark:hover:text-white'; ?> flex items-center gap-3 px-4 py-3 rounded-r-xl font-bold transition-all">
                     <i class='bx bx-transfer-alt text-xl'></i> Issue & Return
                 </a>
+                <a href="history.php" class="<?php echo ($current_page == 'history.php') ? 'bg-gradient-to-r from-[#FF6600]/10 to-transparent text-[#FF6600] border-l-2 border-[#FF6600]' : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/50 hover:text-slate-900 dark:hover:text-white'; ?> flex items-center gap-3 px-4 py-3 rounded-r-xl font-bold transition-all">
+                    <i class='bx bx-history text-xl'></i> Global History
+                </a>
                 <a href="members.php" class="<?php echo ($current_page == 'members.php') ? 'bg-gradient-to-r from-[#FF6600]/10 to-transparent text-[#FF6600] border-l-2 border-[#FF6600]' : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/50 hover:text-slate-900 dark:hover:text-white'; ?> flex items-center gap-3 px-4 py-3 rounded-r-xl font-bold transition-all">
                     <i class='bx bx-group text-xl'></i> Member Directory
                 </a>
@@ -107,6 +110,9 @@ $header_title = isset($header_title) ? $header_title : "Dashboard";
                 <a href="dashboard.php" class="<?php echo ($current_page == 'dashboard.php') ? 'bg-gradient-to-r from-[#FF6600]/10 to-transparent text-[#FF6600] border-l-2 border-[#FF6600]' : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/50 hover:text-slate-900 dark:hover:text-white'; ?> flex items-center gap-3 px-4 py-3 rounded-r-xl font-bold transition-all">
                     <i class='bx bxs-book-reader text-xl'></i> My Reading List
                 </a>
+                <a href="history.php" class="<?php echo ($current_page == 'history.php') ? 'bg-gradient-to-r from-[#FF6600]/10 to-transparent text-[#FF6600] border-l-2 border-[#FF6600]' : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/50 hover:text-slate-900 dark:hover:text-white'; ?> flex items-center gap-3 px-4 py-3 rounded-r-xl font-bold transition-all">
+                    <i class='bx bx-history text-xl'></i> Reading History
+                </a>
                 <a href="catalog.php" class="<?php echo ($current_page == 'catalog.php') ? 'bg-gradient-to-r from-[#FF6600]/10 to-transparent text-[#FF6600] border-l-2 border-[#FF6600]' : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/50 hover:text-slate-900 dark:hover:text-white'; ?> flex items-center gap-3 px-4 py-3 rounded-r-xl font-bold transition-all">
                     <i class='bx bx-search-alt text-xl'></i> Browse Library
                 </a>
@@ -115,6 +121,9 @@ $header_title = isset($header_title) ? $header_title : "Dashboard";
                 <p class="px-4 text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">Educator Menu</p>
                 <a href="dashboard.php" class="<?php echo ($current_page == 'dashboard.php') ? 'bg-gradient-to-r from-[#FF6600]/10 to-transparent text-[#FF6600] border-l-2 border-[#FF6600]' : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/50 hover:text-slate-900 dark:hover:text-white'; ?> flex items-center gap-3 px-4 py-3 rounded-r-xl font-bold transition-all">
                     <i class='bx bxs-briefcase-alt-2 text-xl'></i> My Desk
+                </a>
+                <a href="history.php" class="<?php echo ($current_page == 'history.php') ? 'bg-gradient-to-r from-[#FF6600]/10 to-transparent text-[#FF6600] border-l-2 border-[#FF6600]' : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/50 hover:text-slate-900 dark:hover:text-white'; ?> flex items-center gap-3 px-4 py-3 rounded-r-xl font-bold transition-all">
+                    <i class='bx bx-history text-xl'></i> Reading History
                 </a>
                 <a href="catalog.php" class="<?php echo ($current_page == 'catalog.php') ? 'bg-gradient-to-r from-[#FF6600]/10 to-transparent text-[#FF6600] border-l-2 border-[#FF6600]' : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/50 hover:text-slate-900 dark:hover:text-white'; ?> flex items-center gap-3 px-4 py-3 rounded-r-xl font-bold transition-all">
                     <i class='bx bx-search-alt text-xl'></i> Browse Library

@@ -105,7 +105,7 @@ require '../components/header.php';
     </div>
 
     <!-- Issued Books -->
-    <div class="card-hover relative bg-white dark:bg-slate-900/50 p-6 rounded-[24px] border border-slate-200 dark:border-slate-800">
+    <a href="transactions.php" class="card-hover relative bg-white dark:bg-slate-900/50 p-6 rounded-[24px] border border-slate-200 dark:border-slate-800">
         <div class="flex justify-between items-start mb-4">
             <div class="w-12 h-12 bg-gradient-to-br from-orange-500 to-[#FF6600] rounded-xl flex items-center justify-center shadow-lg shadow-orange-500/25">
                 <i class='bx bxs-hand text-white text-xl'></i>
@@ -113,10 +113,10 @@ require '../components/header.php';
         </div>
         <h3 class="text-3xl font-black text-slate-900 dark:text-white mb-1"><?php echo $stats['issued']; ?></h3>
         <p class="text-sm text-slate-500 dark:text-slate-400 font-semibold">Issued</p>
-    </div>
+    </a>
 
     <!-- Overdue Books -->
-    <div class="card-hover relative bg-white dark:bg-slate-900/50 p-6 rounded-[24px] border border-slate-200 dark:border-slate-800">
+    <a href="transactions.php" class="card-hover relative bg-white dark:bg-slate-900/50 p-6 rounded-[24px] border border-slate-200 dark:border-slate-800">
         <div class="flex justify-between items-start mb-4">
             <div class="w-12 h-12 bg-gradient-to-br from-red-500 to-red-600 rounded-xl flex items-center justify-center shadow-lg shadow-red-500/25">
                 <i class='bx bxs-error text-white text-xl'></i>
@@ -124,7 +124,7 @@ require '../components/header.php';
         </div>
         <h3 class="text-3xl font-black text-slate-900 dark:text-white mb-1"><?php echo $stats['overdue']; ?></h3>
         <p class="text-sm text-slate-500 dark:text-slate-400 font-semibold">Overdue</p>
-    </div>
+    </a>
 
     <!-- Academic Users -->
     <div class="card-hover relative bg-white dark:bg-slate-900/50 p-6 rounded-[24px] border border-slate-200 dark:border-slate-800">

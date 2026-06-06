@@ -69,7 +69,7 @@ require '../components/header.php';
         <p class="text-sm text-slate-500 dark:text-slate-400 font-semibold">Overdue Books</p>
     </div>
 
-    <div class="card-hover relative bg-white dark:bg-slate-900/50 p-6 rounded-[24px] border border-slate-200 dark:border-slate-800 border-l-4 border-l-purple-500">
+    <a href="history.php" class="card-hover relative bg-white dark:bg-slate-900/50 p-6 rounded-[24px] border border-slate-200 dark:border-slate-800 border-l-4 border-l-purple-500">
         <div class="flex justify-between items-start mb-2">
             <div class="w-10 h-10 bg-purple-100 dark:bg-purple-500/10 rounded-xl flex items-center justify-center text-purple-500">
                 <i class='bx bxs-trophy text-xl'></i>
@@ -77,7 +77,7 @@ require '../components/header.php';
             <h3 class="text-3xl font-black text-slate-900 dark:text-white"><?php echo $stats['total_read']; ?></h3>
         </div>
         <p class="text-sm text-slate-500 dark:text-slate-400 font-semibold">Books Completed</p>
-    </div>
+    </a>
 </div>
 
 <div class="glass rounded-[32px] border border-slate-200/50 dark:border-slate-800/50 p-8 mt-8 shadow-sm">
