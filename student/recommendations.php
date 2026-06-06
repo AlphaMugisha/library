@@ -278,9 +278,8 @@ require '../components/header.php';
         <?php endforeach; ?>
     </div>
 </div>
-<?php endif; -->
-
-<!-- Trending Books -->
+<?php endif;
+ Trending Books 
 <div id="category-trending" class="recommendation-category hidden">
     <div class="mb-6 p-4 bg-orange-50 dark:bg-orange-500/10 border border-orange-200 dark:border-orange-500/20 rounded-xl">
         <h3 class="font-bold text-orange-900 dark:text-orange-100 mb-2">

@@ -2,7 +2,7 @@
 // config/db.php
 
 $host = 'localhost';
-$dbname = 'nga_library';
+$dbname = 'nga_library_new';
 $username = 'root'; // Change if your local DB uses a different username
 $password = '';     // Change if your local DB has a password
 

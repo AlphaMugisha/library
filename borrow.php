@@ -78,10 +78,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                 ");
                 $stmt->execute([$user_id, $book_id, date('Y-m-d'), $due_date]);
                 
-                // Update available copies
+                // Update available copies and borrow count
                 $stmt = $pdo->prepare("
                     UPDATE books 
-                    SET available_copies = available_copies - 1 
+                    SET available_copies = available_copies - 1,
+                        borrow_count = borrow_count + 1
                     WHERE id = ?
                 ");
                 $stmt->execute([$book_id]);

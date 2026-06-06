@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['handle_request'])) {
                 $updateBr = $pdo->prepare("UPDATE borrowings SET status = 'Issued', issue_date = CURDATE(), due_date = ? WHERE id = ?");
                 $updateBr->execute([$due_date, $borrowing_id]);
 
-                $updateBook = $pdo->prepare("UPDATE books SET available_copies = available_copies - 1 WHERE id = ?");
+                $updateBook = $pdo->prepare("UPDATE books SET available_copies = available_copies - 1, borrow_count = borrow_count + 1 WHERE id = ?");
                 $updateBook->execute([$book_id]);
 
                 $success_msg = "Request approved! Issued for $days days.";
@@ -65,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['manual_issue'])) {
         $stmt = $pdo->prepare("INSERT INTO borrowings (user_id, book_id, issue_date, due_date, status) VALUES (?, ?, CURDATE(), ?, 'Issued')");
         $stmt->execute([$user_id, $book_id, $due_date]);
 
-        $pdo->prepare("UPDATE books SET available_copies = available_copies - 1 WHERE id = ?")->execute([$book_id]);
+        $pdo->prepare("UPDATE books SET available_copies = available_copies - 1, borrow_count = borrow_count + 1 WHERE id = ?")->execute([$book_id]);
         $pdo->commit();
         $success_msg = "Book issued manually for $days days.";
     } catch (Exception $e) {

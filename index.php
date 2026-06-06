@@ -1,7 +1,13 @@
 <?php
 session_start();
-// Database configuration
-// require 'config/db.php'; 
+require 'config/db.php';
+
+// Fetch Trending Books (Popularity formula: views + 2*borrows)
+$trending_books = [];
+try {
+    $stmt = $pdo->query("SELECT *, (view_count + (borrow_count * 2)) as score FROM books ORDER BY score DESC LIMIT 4");
+    $trending_books = $stmt->fetchAll();
+} catch (PDOException $e) {}
 ?>
 
 <!DOCTYPE html>
@@ -246,6 +252,55 @@ session_start();
             </div>
         </div>
     </section>
+
+    <!-- Trending Books Section -->
+    <?php if (count($trending_books) > 0): ?>
+    <section id="trending" class="py-24 relative z-10">
+        <div class="max-w-[1400px] mx-auto px-8">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-8" data-aos="fade-up">
+                <div class="max-w-2xl">
+                    <span class="text-nga-orange font-black uppercase tracking-widest text-xs">Community Favorites</span>
+                    <h2 class="text-5xl font-black text-slate-900 dark:text-white mt-4">Trending <span class="text-gradient">Resources</span></h2>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <?php foreach ($trending_books as $t_book): ?>
+                    <div class="group card-perspective glass p-8 relative overflow-hidden flex flex-col h-full" data-aos="fade-up">
+                        <div class="absolute top-4 right-4 bg-orange-500/10 text-nga-orange text-[10px] font-black px-3 py-1 rounded-full uppercase">
+                            🔥 Popular
+                        </div>
+                        
+                        <div class="w-16 h-20 bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-800 dark:to-slate-700 rounded-xl flex items-center justify-center shadow-inner mb-6 group-hover:scale-110 transition-transform">
+                            <i class='bx bxs-book text-3xl text-nga-orange'></i>
+                        </div>
+
+                        <div class="flex-1">
+                            <h3 class="text-xl font-black text-slate-900 dark:text-white mb-2 leading-tight"><?php echo htmlspecialchars($t_book['title']); ?></h3>
+                            <p class="text-sm font-bold text-slate-500 mb-6"><?php echo htmlspecialchars($t_book['author']); ?></p>
+                        </div>
+
+                        <div class="flex items-center justify-between pt-6 border-t border-slate-200/50 dark:border-slate-800/50">
+                            <div class="flex items-center gap-4">
+                                <div class="flex flex-col">
+                                    <span class="text-[10px] font-black text-slate-400 uppercase">Views</span>
+                                    <span class="font-black text-slate-900 dark:text-white"><?php echo $t_book['view_count']; ?></span>
+                                </div>
+                                <div class="flex flex-col">
+                                    <span class="text-[10px] font-black text-slate-400 uppercase">Borrows</span>
+                                    <span class="font-black text-slate-900 dark:text-white"><?php echo $t_book['borrow_count']; ?></span>
+                                </div>
+                            </div>
+                            <a href="book_details.php?id=<?php echo $t_book['id']; ?>" class="w-10 h-10 bg-nga-orange text-white rounded-full flex items-center justify-center hover:scale-110 transition-transform shadow-lg shadow-orange-500/20">
+                                <i class='bx bx-right-arrow-alt text-xl'></i>
+                            </a>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    </section>
+    <?php endif; ?>
 
     <section id="stats" class="py-24 relative z-10">
         <div class="max-w-[1400px] mx-auto px-8">

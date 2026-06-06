@@ -1,7 +1,7 @@
 <?php
 session_start();
-// require 'config/db.php';
-// require 'config/academic_integration.php';
+require 'config/db.php';
+require 'config/academic_integration.php';
 
 // --- LOGIC: HANDLE BOTH LOGIN AND ACTIVATION REQUESTS ---
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
@@ -13,16 +13,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
         $email = trim($_POST['email']);
         $password = trim($_POST['password']);
         
-        // --- MOCK DATABASE BEHAVIOR FOR DEMONSTRATION ---
-        // Replace this block with your actual $pdo->prepare() logic
-        /*
         $stmt = $pdo->prepare("SELECT * FROM users WHERE email = :email");
         $stmt->execute(['email' => $email]);
         $user = $stmt->fetch();
-        */
-        $user = null; // Mocking a failed login for safety in this template
 
-        if ($user && password_verify($password, $user['password'])) {
+        if (!$user) {
+            echo json_encode(['success' => false, 'message' => "User not found with this email."]); exit;
+        }
+
+        if (password_verify($password, $user['password'])) {
             
             // Check if Suspended
             if($user['library_status'] === 'suspended') {
@@ -50,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
         } else {
             // Added a slight delay to prevent brute-force timing attacks
             sleep(1);
-            echo json_encode(['success' => false, 'message' => "Invalid email or password."]); exit;
+            echo json_encode(['success' => false, 'message' => "Incorrect password. Please try again."]); exit;
         }
     } 
 
@@ -58,13 +57,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
     if ($action === 'request_activation') {
         $email = trim($_POST['email']);
         
-        // --- MOCK DATABASE BEHAVIOR FOR DEMONSTRATION ---
-        /*
         $stmt = $pdo->prepare("SELECT activation_token, is_activated FROM users WHERE email = ?");
         $stmt->execute([$email]);
         $user = $stmt->fetch();
-        */
-        $user = null; // Mocking behavior
 
         sleep(1); // UX delay
         if (!$user) {

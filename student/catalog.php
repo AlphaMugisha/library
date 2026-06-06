@@ -121,6 +121,15 @@ require '../components/header.php';
                     <p class="text-sm font-semibold text-slate-500 dark:text-slate-400 book-author">
                         <?php echo htmlspecialchars($book['author']); ?>
                     </p>
+                    
+                    <div class="flex items-center gap-3 mt-3">
+                        <span class="text-[9px] font-black text-slate-400 uppercase flex items-center gap-1">
+                            <i class='bx bx-show'></i> <?php echo $book['view_count'] ?? 0; ?>
+                        </span>
+                        <span class="text-[9px] font-black text-slate-400 uppercase flex items-center gap-1">
+                            <i class='bx bx-book-heart'></i> <?php echo $book['borrow_count'] ?? 0; ?>
+                        </span>
+                    </div>
                 </div>
 
                 <div class="mt-6 pt-4 border-t border-slate-200 dark:border-slate-700/50 flex flex-col gap-3">

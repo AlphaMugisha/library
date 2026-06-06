@@ -17,7 +17,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
         $stmt->execute(['email' => $email]);
         $user = $stmt->fetch();
 
-        if ($user && password_verify($password, $user['password'])) {
+        if (!$user) {
+            echo json_encode(['success' => false, 'message' => "User not found with this email."]); exit;
+        }
+
+        if (password_verify($password, $user['password'])) {
             
             // Check if Suspended
             if($user['library_status'] === 'suspended') {
@@ -43,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
             echo json_encode(['success' => true, 'step' => 'redirect', 'url' => $redirect_url]); exit;
             
         } else {
-            echo json_encode(['success' => false, 'message' => "Invalid email or password."]); exit;
+            echo json_encode(['success' => false, 'message' => "Incorrect password. Please try again."]); exit;
         }
     } 
 

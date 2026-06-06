@@ -13,6 +13,10 @@ if (!is_numeric($book_id) || $book_id <= 0) {
 // Get book details
 $book = [];
 try {
+    // Increment view count
+    $stmt = $pdo->prepare("UPDATE books SET view_count = view_count + 1 WHERE id = ?");
+    $stmt->execute([$book_id]);
+
     $stmt = $pdo->prepare("
         SELECT b.*, 
                (SELECT COUNT(*) FROM borrowings WHERE book_id = b.id) as popularity,

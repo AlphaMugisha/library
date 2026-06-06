@@ -141,17 +141,30 @@ $header_title = isset($header_title) ? $header_title : "Dashboard";
                 </button>
 
                 <div class="flex items-center gap-3 pl-6 border-l border-slate-200 dark:border-slate-700">
-                    <div class="text-right hidden md:block">
+                    <a href="../profile.php" class="text-right hidden md:block hover:opacity-80 transition-opacity">
                         <p class="text-sm font-bold text-slate-900 dark:text-white"><?php echo isset($_SESSION['name']) ? htmlspecialchars($_SESSION['name']) : 'Guest'; ?></p>
                         <p class="text-xs text-slate-500 font-medium uppercase"><?php echo isset($_SESSION['role']) ? htmlspecialchars($_SESSION['role']) : 'User'; ?></p>
-                    </div>
+                    </a>
                     <?php 
-                        // Teacher avatar stays blue for contrast, everyone else brand orange
-                        $avatar_color = (isset($_SESSION['role']) && $_SESSION['role'] === 'teacher') ? 'from-blue-500 to-blue-600 shadow-blue-500/20' : 'from-[#FF6600] to-orange-400 shadow-orange-500/20'; 
+                        // Fetch user's current profile picture
+                        $header_pic = 'default_avatar.png';
+                        if (isset($_SESSION['user_id'])) {
+                            try {
+                                $pic_stmt = $pdo->prepare("SELECT profile_picture FROM users WHERE id = ?");
+                                $pic_stmt->execute([$_SESSION['user_id']]);
+                                $pic_res = $pic_stmt->fetch();
+                                if ($pic_res) $header_pic = $pic_res['profile_picture'];
+                            } catch (Exception $e) {}
+                        }
                     ?>
-                    <div class="w-10 h-10 rounded-full bg-gradient-to-br <?php echo $avatar_color; ?> flex items-center justify-center shadow-lg text-white font-bold">
-                        <?php echo isset($_SESSION['name']) ? substr($_SESSION['name'], 0, 1) : 'U'; ?>
-                    </div>
+                    <a href="../profile.php" class="relative group">
+                        <img src="../uploads/profile_pics/<?php echo $header_pic; ?>" 
+                             onerror="this.src='https://ui-avatars.com/api/?name=<?php echo urlencode($_SESSION['name'] ?? 'U'); ?>&background=FF6600&color=fff'"
+                             class="w-10 h-10 rounded-full object-cover border-2 border-white dark:border-slate-800 shadow-md group-hover:border-nga-brand transition-all">
+                        <div class="absolute inset-0 rounded-full bg-black/20 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
+                            <i class='bx bx-edit-alt text-white text-xs'></i>
+                        </div>
+                    </a>
                 </div>
             </div>
         </header>
